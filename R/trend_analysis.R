@@ -27,7 +27,7 @@ mod_list <- list(
   Q = matrix("q"),
   Z = matrix(1),
   A = matrix(0),
-  R = matrix(1.5) # matrix("r")
+  R = matrix(1) # matrix("r")
 )
 
 mod_fit_unbiased <- MARSS(y = matrix(log_counts, nrow = 1),
@@ -42,7 +42,7 @@ mod_list <- list(
   Q = matrix("q"),
   Z = matrix(1),
   A = matrix(0),
-  R = matrix(1.5) # matrix("r")
+  R = matrix(1) # matrix("r")
 )
 
 mod_fit_biased <- MARSS(y = matrix(log_counts, nrow = 1),
@@ -70,9 +70,10 @@ mod_fit_ar1 <- MARSS(y = matrix(log_counts, nrow = 1),
 #### Popn viability analysis ####
 
 ## set seed for random numbers
+set.seed(1234)
 
 ## number of MC simulations
-n_sims <- 1000
+n_sims <- 1e6L
 
 ## time horizon
 n_years <- 50
@@ -108,3 +109,7 @@ for(i in 1:n_sims) {
 
 pva_biased <- apply(popn_mat[, -1] < qet, 2, sum) / n_sims
 
+
+#### plot summaries ####
+
+plot.ts(cbind(pva_unbiased, pva_biased))
